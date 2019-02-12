@@ -12,4 +12,10 @@
         >
     </item>
 
+
+    <item android:id="@+id/removeDice"
+        android:title="RemoveDice"
+        app:showAsAction="collapseActionView"
+    >
+    </item>
 </menu>

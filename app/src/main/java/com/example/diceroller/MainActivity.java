@@ -1,8 +1,10 @@
 package com.example.diceroller;
 
+import android.content.res.Resources;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
@@ -50,12 +53,18 @@ public class MainActivity extends AppCompatActivity {
                 Dice new_dice = new Dice();
                 ImageView new_dice_view = new ImageView(this);
                 new_dice_view.setContentDescription("Dice");
-                new_dice_view.setLayoutParams(new LinearLayout.LayoutParams(150,150));
+                new_dice_view.setLayoutParams(new LinearLayout.LayoutParams((int)getPxFromDp(150),(int)getPxFromDp(150)));
                 new_dice_view.setImageDrawable((getDrawable(new_dice.drawable_id)));
                 DiceImageMap.put(new_dice,new_dice_view);
                 dice_layout.addView(new_dice_view, dices.size());
                 dices.add(new_dice);
                 break;
+            case R.id.removeDice:
+                if(dices.size()<=1)
+                    break;
+                Dice _lastaddedDice = dices.remove(dices.size()-1);
+                dice_layout.removeView(DiceImageMap.get(_lastaddedDice));
+                DiceImageMap.remove(_lastaddedDice);
             default:
                 break;
 
@@ -82,6 +91,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
+
+    }
+
+    public float getPxFromDp(float dp){
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                r.getDisplayMetrics()
+        );
+        return px;
 
     }
 
